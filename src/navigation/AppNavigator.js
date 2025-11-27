@@ -10,13 +10,17 @@ import { colors } from "../theme/theme";
 import RatingsScreen from "../screens/RatingsScreen";
 import PollsScreen from "../screens/PollsScreen";
 import SearchScreen from "../screens/SearchScreen";
+import CustomDrawerContent from "./CustomDrawerContent";
 
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
 
-function MainDrawer() {
+function MainDrawer({ route }) {
+  const username = route?.params?.username || "User";
+
   return (
     <Drawer.Navigator
+      drawerContent={(props) => <CustomDrawerContent {...props} username={username} />}
       screenOptions={{
         headerShown: true,
         headerStyle: { backgroundColor: colors.surface },
@@ -27,11 +31,10 @@ function MainDrawer() {
       }}
     >
       <Drawer.Screen name="Home" component={HomeScreen} />
-      <Drawer.Screen name="Profile" component={ProfileScreen} />
-      <Drawer.Screen name="Report Issue" component={ReportIssueScreen} />
+      <Drawer.Screen name="Search" component={SearchScreen} />
       <Drawer.Screen name="Ratings" component={RatingsScreen} />
       <Drawer.Screen name="Polls" component={PollsScreen} />
-      <Drawer.Screen name="Search" component={SearchScreen} />
+      <Drawer.Screen name="Report Issue" component={ReportIssueScreen} />
     </Drawer.Navigator>
   );
 }

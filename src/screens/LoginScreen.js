@@ -10,7 +10,7 @@ export default function LoginScreen({ navigation }) {
   const handleLogin = async () => {
     const isValid = email.trim().toLowerCase() === "yash" && password === "123";
     if (isValid) {
-      navigation.replace("Main");
+      navigation.replace("Main", { username: email.trim() });
     } else {
       setError("Invalid username or password");
     }
@@ -25,11 +25,11 @@ export default function LoginScreen({ navigation }) {
         <Text style={styles.demoText}>Username: yash</Text>
         <Text style={styles.demoText}>Password: 123</Text>
       </View>
-      <TextInput placeholder="Username" placeholderTextColor={colors.textMuted} value={email} onChangeText={setEmail} autoCapitalize="none" style={styles.input}/>
-      <TextInput placeholder="Password" placeholderTextColor={colors.textMuted} value={password} onChangeText={setPassword} secureTextEntry style={styles.input}/>
+      <TextInput placeholder="Username" placeholderTextColor={colors.textMuted} value={email} onChangeText={setEmail} autoCapitalize="none" style={styles.input} />
+      <TextInput placeholder="Password" placeholderTextColor={colors.textMuted} value={password} onChangeText={setPassword} secureTextEntry style={styles.input} />
       {error ? <Text style={styles.error}>{error}</Text> : null}
       <View style={{ height: spacing(1) }} />
-      <Button title="Login" color={colors.primary} onPress={handleLogin}/>
+      <Button title="Login" color={colors.primary} onPress={handleLogin} />
     </View>
   );
 }
