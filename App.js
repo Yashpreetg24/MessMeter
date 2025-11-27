@@ -2,6 +2,7 @@ import AppNavigator from "./src/navigation/AppNavigator";
 import { StatusBar } from "expo-status-bar";
 import * as Notifications from "expo-notifications";
 import { useEffect } from "react";
+import { StyleSheet } from 'react-native'; 
 
 export default function App() {
   useEffect(() => {
@@ -9,6 +10,7 @@ export default function App() {
       await Notifications.requestPermissionsAsync();
     })();
   }, []);
+
   return (
     <>
       <StatusBar style="light" />

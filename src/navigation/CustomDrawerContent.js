@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { DrawerContentScrollView, DrawerItemList, DrawerItem } from "@react-navigation/drawer";
 import { colors, spacing } from "../theme/theme";
@@ -33,18 +33,10 @@ export default function CustomDrawerContent(props) {
                 inactiveTintColor={colors.text}
             />
             <DrawerItem
-                label="Search"
-                labelStyle={styles.drawerLabel}
-                onPress={() => props.navigation.navigate("Search")}
-                focused={props.state.index === 1}
-                activeTintColor={colors.accent}
-                inactiveTintColor={colors.text}
-            />
-            <DrawerItem
                 label="Ratings"
                 labelStyle={styles.drawerLabel}
                 onPress={() => props.navigation.navigate("Ratings")}
-                focused={props.state.index === 2}
+                focused={props.state.index === 1}
                 activeTintColor={colors.accent}
                 inactiveTintColor={colors.text}
             />
@@ -52,7 +44,7 @@ export default function CustomDrawerContent(props) {
                 label="Polls"
                 labelStyle={styles.drawerLabel}
                 onPress={() => props.navigation.navigate("Polls")}
-                focused={props.state.index === 3}
+                focused={props.state.index === 2}
                 activeTintColor={colors.accent}
                 inactiveTintColor={colors.text}
             />
@@ -60,7 +52,7 @@ export default function CustomDrawerContent(props) {
                 label="Report Issue"
                 labelStyle={styles.drawerLabel}
                 onPress={() => props.navigation.navigate("Report Issue")}
-                focused={props.state.index === 4}
+                focused={props.state.index === 3}
                 activeTintColor={colors.accent}
                 inactiveTintColor={colors.text}
             />

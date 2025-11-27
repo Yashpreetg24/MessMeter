@@ -1,7 +1,6 @@
-import React from "react";
+import React from 'react';
 import { Button, Text, View, StyleSheet } from "react-native";
 import { colors, spacing } from "../theme/theme";
-// Firebase auth removed for local demo login
 
 export default function ProfileScreen({ navigation }) {
   const handleLogout = async () => {

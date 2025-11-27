@@ -1,7 +1,7 @@
 import { DefaultTheme, NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { createDrawerNavigator } from "@react-navigation/drawer";
-import React from "react";
+import { createDrawerNavigator } from '@react-navigation/drawer';
+import React from 'react';
 import HomeScreen from "../screens/HomeScreen";
 import LoginScreen from "../screens/LoginScreen";
 import ProfileScreen from "../screens/ProfileScreen";
@@ -9,14 +9,14 @@ import ReportIssueScreen from "../screens/ReportIssueScreen";
 import { colors } from "../theme/theme";
 import RatingsScreen from "../screens/RatingsScreen";
 import PollsScreen from "../screens/PollsScreen";
-import SearchScreen from "../screens/SearchScreen";
 import CustomDrawerContent from "./CustomDrawerContent";
+
 
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
 
 function MainDrawer({ route }) {
-  const username = route?.params?.username || "User";
+  let username = route?.params?.username || "User"; 
 
   return (
     <Drawer.Navigator
@@ -31,7 +31,6 @@ function MainDrawer({ route }) {
       }}
     >
       <Drawer.Screen name="Home" component={HomeScreen} />
-      <Drawer.Screen name="Search" component={SearchScreen} />
       <Drawer.Screen name="Ratings" component={RatingsScreen} />
       <Drawer.Screen name="Polls" component={PollsScreen} />
       <Drawer.Screen name="Report Issue" component={ReportIssueScreen} />
@@ -60,6 +59,3 @@ export default function AppNavigator() {
     </NavigationContainer>
   );
 }
-
-
-

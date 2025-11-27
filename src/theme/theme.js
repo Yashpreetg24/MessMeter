@@ -10,8 +10,10 @@ export const colors = {
   danger: "#FF5C5C",
   success: "#3CCB7F",
   accent: "#F7B84B",
+  warning: '#FFA726', 
 };
 
 export const spacing = (n) => n * 8;
+
 
 

@@ -6,39 +6,37 @@ import {
   View,
   TouchableOpacity,
   ScrollView,
-  Animated
+  Animated,
+  Alert 
 } from "react-native";
 import { colors, spacing } from "../theme/theme";
 import { getTodayMenu, getWeekMenu, getMonthMenu } from "../../data";
 
 export default function HomeScreen({ navigation }) {
-  const [viewMode, setViewMode] = useState("day"); // 'day', 'week', 'month'
-  const [menuData, setMenuData] = useState(null);
+  const [viewMode, setViewMode] = useState("day"); 
+  let [menuStuff, setMenuStuff] = useState(null); 
   const [fadeAnim] = useState(new Animated.Value(1));
-  const [selectedDate, setSelectedDate] = useState(null); // For week/month calendar selection
+  let [currentlySelectedDate, setCurrentlySelectedDate] = useState(null); 
 
   useEffect(() => {
-    setSelectedDate(null); // Reset selection when changing view mode
+    setCurrentlySelectedDate(null); 
     loadMenuData();
   }, [viewMode]);
 
   const loadMenuData = () => {
-    // Fade out animation
     Animated.timing(fadeAnim, {
       toValue: 0,
       duration: 150,
       useNativeDriver: true,
     }).start(() => {
-      // Load data based on view mode
       if (viewMode === "day") {
-        setMenuData(getTodayMenu());
+        setMenuStuff(getTodayMenu());
       } else if (viewMode === "week") {
-        setMenuData(getWeekMenu());
+        setMenuStuff(getWeekMenu());
       } else {
-        setMenuData(getMonthMenu());
+        setMenuStuff(getMonthMenu());
       }
 
-      // Fade in animation
       Animated.timing(fadeAnim, {
         toValue: 1,
         duration: 150,
@@ -97,7 +95,7 @@ export default function HomeScreen({ navigation }) {
   );
 
   const renderDayView = () => {
-    if (!menuData) {
+    if (!menuStuff) {
       return (
         <View style={styles.emptyState}>
           <Text style={styles.emptyText}>No menu available for today</Text>
@@ -117,16 +115,16 @@ export default function HomeScreen({ navigation }) {
             })}
           </Text>
         </View>
-        {menuData.breakfast && renderMealCard("Breakfast", menuData.breakfast)}
-        {menuData.lunch && renderMealCard("Lunch", menuData.lunch)}
-        {menuData.snacks && renderMealCard("Snacks", menuData.snacks)}
-        {menuData.dinner && renderMealCard("Dinner", menuData.dinner)}
+        {menuStuff?.breakfast && renderMealCard("Breakfast", menuStuff.breakfast)}
+        {menuStuff?.lunch && renderMealCard("Lunch", menuStuff.lunch)}
+        {menuStuff?.snacks && renderMealCard("Snacks", menuStuff.snacks)}
+        {menuStuff?.dinner && renderMealCard("Dinner", menuStuff.dinner)}
       </ScrollView>
     );
   };
 
   const renderWeekView = () => {
-    if (!menuData || menuData.length === 0) {
+    if (!menuStuff || menuStuff?.length === 0) {
       return (
         <View style={styles.emptyState}>
           <Text style={styles.emptyText}>No menu available for this week</Text>
@@ -134,9 +132,8 @@ export default function HomeScreen({ navigation }) {
       );
     }
 
-    // If a date is selected, show its menu
-    if (selectedDate) {
-      const dayMenu = menuData.find(item => item.date === selectedDate);
+    if (currentlySelectedDate) {
+      const dayMenu = menuStuff?.find(item => item.date === currentlySelectedDate);
       if (dayMenu) {
         return (
           <ScrollView style={styles.scrollView} showsVerticalScrollIndicator={false}>
@@ -167,14 +164,13 @@ export default function HomeScreen({ navigation }) {
       }
     }
 
-    // Show calendar grid
-    const today = new Date();
+    let today = new Date();
 
     return (
       <ScrollView style={styles.scrollView} showsVerticalScrollIndicator={false}>
         <Text style={styles.calendarTitle}>This Week</Text>
         <View style={styles.calendarGrid}>
-          {Array.isArray(menuData) && menuData.map((item) => {
+          {Array.isArray(menuStuff) && menuStuff.map((item) => {
             const itemDate = new Date(item.date);
             const isToday = itemDate.toDateString() === today.toDateString();
 
@@ -182,7 +178,7 @@ export default function HomeScreen({ navigation }) {
               <TouchableOpacity
                 key={item.date}
                 style={[styles.calendarDay, isToday && styles.calendarDayToday]}
-                onPress={() => setSelectedDate(item.date)}
+                onPress={() => setCurrentlySelectedDate(item.date)}
               >
                 <Text style={[styles.calendarDayName, isToday && styles.calendarDayNameToday]}>
                   {item.dayName}
@@ -200,7 +196,7 @@ export default function HomeScreen({ navigation }) {
   };
 
   const renderMonthView = () => {
-    if (!menuData || menuData.length === 0) {
+    if (!menuStuff || menuStuff?.length === 0) {
       return (
         <View style={styles.emptyState}>
           <Text style={styles.emptyText}>No menu available for this month</Text>
@@ -208,9 +204,8 @@ export default function HomeScreen({ navigation }) {
       );
     }
 
-    // If a date is selected, show its menu
-    if (selectedDate) {
-      const dayMenu = menuData.find(item => item.date === selectedDate);
+    if (currentlySelectedDate) {
+      const dayMenu = menuStuff?.find(item => item.date === currentlySelectedDate);
       if (dayMenu) {
         return (
           <ScrollView style={styles.scrollView} showsVerticalScrollIndicator={false}>
@@ -241,15 +236,14 @@ export default function HomeScreen({ navigation }) {
       }
     }
 
-    // Show calendar grid
-    const today = new Date();
+    let today = new Date();
     const monthName = today.toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
 
     return (
       <ScrollView style={styles.scrollView} showsVerticalScrollIndicator={false}>
         <Text style={styles.calendarTitle}>{monthName}</Text>
         <View style={styles.calendarGrid}>
-          {Array.isArray(menuData) && menuData.map((item) => {
+          {Array.isArray(menuStuff) && menuStuff.map((item) => {
             const itemDate = new Date(item.date);
             const isToday = itemDate.toDateString() === today.toDateString();
 
@@ -257,7 +251,7 @@ export default function HomeScreen({ navigation }) {
               <TouchableOpacity
                 key={item.date}
                 style={[styles.calendarDay, isToday && styles.calendarDayToday]}
-                onPress={() => setSelectedDate(item.date)}
+                onPress={() => setCurrentlySelectedDate(item.date)}
               >
                 <Text style={[styles.calendarDayName, isToday && styles.calendarDayNameToday]}>
                   {item.dayName}
@@ -271,7 +265,7 @@ export default function HomeScreen({ navigation }) {
           })}
         </View>
 
-        {/* Coming Soon Banner */}
+
         <View style={styles.comingSoonBanner}>
           <View style={styles.comingSoonContent}>
             <Text style={styles.comingSoonEmoji}>🍽️</Text>

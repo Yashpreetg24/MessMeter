@@ -1,8 +1,8 @@
-import React, { useMemo, useState } from "react";
+import React, { useMemo, useState } from 'react';
 import { FlatList, StyleSheet, Text, TextInput, View } from "react-native";
 import { colors, spacing } from "../theme/theme";
 
-const sample = [
+const mockMenuData = [
   { mealType: "Breakfast", items: ["Poha", "Eggs", "Banana"] },
   { mealType: "Lunch", items: ["Dal", "Rice", "Chapati", "Salad"] },
   { mealType: "Snacks", items: ["Samosa", "Chutney"] },
@@ -11,12 +11,12 @@ const sample = [
 
 export default function SearchScreen() {
   const [query, setQuery] = useState("");
-  const [mealType, setMealType] = useState("");
+  let [mealType, setMealType] = useState("");
 
   const results = useMemo(() => {
     const q = query.trim().toLowerCase();
     const type = mealType.trim().toLowerCase();
-    return sample
+    return mockMenuData
       .filter((m) => !type || m.mealType.toLowerCase().startsWith(type))
       .map((m) => ({ ...m, items: m.items.filter((i) => i.toLowerCase().includes(q)) }))
       .filter((m) => m.items.length);

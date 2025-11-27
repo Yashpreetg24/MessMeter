@@ -1,11 +1,11 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 import { Button, StyleSheet, Text, TextInput, View } from "react-native";
 import { colors, spacing } from "../theme/theme";
 
 export default function LoginScreen({ navigation }) {
-  const [email, setEmail] = useState("");
+  let [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
+  let [error, setError] = useState("");
 
   const handleLogin = async () => {
     const isValid = email.trim().toLowerCase() === "yash" && password === "123";

@@ -1,9 +1,8 @@
-// Mess Menu Data for November 2025
 const menuData = {
-    "2025-11-01": {
+    '2025-11-01': {
         breakfast: ["Aloo Paratha", "Curd", "Pickle", "Tea/Coffee"],
         lunch: ["Rajma", "Jeera Rice", "Chapati", "Salad", "Papad"],
-        snacks: ["Bread Pakora", "Green Chutney", "Tea"],
+        snacks: ['Bread Pakora', "Green Chutney", "Tea"],
         dinner: ["Mix Veg", "Dal Fry", "Rice", "Chapati", "Sweet"]
     },
     "2025-11-02": {
@@ -182,26 +181,33 @@ const menuData = {
     }
 };
 
-// Helper function to get menu for a specific date
+// menu for a specific date
 export const getMenuForDate = (dateString) => {
     return menuData[dateString] || null;
 };
 
-// Helper function to get menu for today
+// get today's menu 
 export const getTodayMenu = () => {
-    const today = new Date();
+    let today = new Date();
     const dateString = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
     return getMenuForDate(dateString);
 };
 
-// Helper function to get menu for current week (7 days starting from today)
+// current week's menu 
 export const getWeekMenu = () => {
-    const today = new Date();
-    const weekMenu = [];
+    let today = new Date();
+    let weekMenu = [];
+
+    const currentDay = today.getDay();
+
+    const daysToMonday = currentDay === 0 ? 6 : currentDay - 1;
+
+    let monday = new Date(today);
+    monday.setDate(today.getDate() - daysToMonday);
 
     for (let i = 0; i < 7; i++) {
-        const date = new Date(today);
-        date.setDate(today.getDate() + i);
+        let date = new Date(monday);
+        date.setDate(monday.getDate() + i);
         const dateString = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
         const menu = getMenuForDate(dateString);
 
@@ -218,14 +224,12 @@ export const getWeekMenu = () => {
     return weekMenu;
 };
 
-// Helper function to get menu for current month
 export const getMonthMenu = () => {
     const today = new Date();
     const year = today.getFullYear();
     const month = today.getMonth();
     const monthMenu = [];
 
-    // Get first and last day of current month
     const firstDay = new Date(year, month, 1);
     const lastDay = new Date(year, month + 1, 0);
 
